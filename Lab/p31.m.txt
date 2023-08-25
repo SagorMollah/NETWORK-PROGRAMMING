@@ -1,0 +1,31 @@
+clc;
+clear all;
+close all;
+img=imread('2B.jpg');
+img=rgb2gray(img);
+subplot(3,1,1);
+imshow(img);
+title('Input Image');
+d=size(img);
+n=d(1)*d(2);
+pk=zeros(1,256);
+for i=0:255
+    s=find(img==i);
+    [nk a]=size(s);
+    pk(i+1)=nk/n;
+end
+subplot(3,1,2);
+bar(0:255,2.5*pk,1/256);
+title('Hitogram');
+for j=1:256
+    his(j)=sum(sum(img==j-1));
+end
+im3=img;
+his2=sum(his);
+for j=1:256
+    k=find(im3==j-1);
+    im3(k)=sum(his(1:j))/his2*255;
+end
+subplot(3,1,3);
+imhist(im3);
+title('Histogram Equalization');
